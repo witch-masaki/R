@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>레조넌스 캐릭터 목록</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    .grid {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .character {
+      text-align: center;
+      cursor: pointer;
+    }
+    .character img {
+      width: 100px;
+      height: 100px;
+      border-radius: 10px;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 20%;
+      left: 50%;
+      transform: translate(-50%, -20%);
+      background: white;
+      padding: 20px;
+      border: 1px solid #ccc;
+      z-index: 10;
+    }
+    .modal.active {
+      display: block;
+    }
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.5);
+      z-index: 5;
+    }
+    .overlay.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>레조넌스 캐릭터 목록</h1>
+  <div class="grid" id="characterGrid">
+    <!-- 캐릭터 아이콘이 여기에 추가됩니다 -->
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+  <div class="modal" id="characterModal">
+    <h2 id="modalName">캐릭터 이름</h2>
+    <p id="modalGrade">등급: </p>
+    <p id="modalFaction">소속: </p>
+    <p id="modalAttribute">속성: </p>
+    <p id="modalSkills">스킬: </p>
+    <button onclick="closeModal()">닫기</button>
+  </div>
+
+  <script>
+    const characters = [
+      {
+        name: "니콜라",
+        img: "https://wiki.biligame.com/resonance/images/3/3a/马吉拉·星仪-头像.png",
+        grade: "SSR",
+        faction: "원예사",
+        attribute: "점화",
+        skills: ["화염 폭발", "연소 강화", "불꽃 방패"]
+      },
+      {
+        name: "카롤린",
+        img: "https://wiki.biligame.com/resonance/images/3/3e/多萝西-头像.png",
+        grade: "SSR",
+        faction: "원예사",
+        attribute: "빙결",
+        skills: ["서리 화살", "냉기 방출", "얼음 갑옷"]
+      },
+      {
+        name: "테니",
+        img: "https://wiki.biligame.com/resonance/images/2/2b/亚莉奈-头像.png",
+        grade: "SSR",
+        faction: "원예사",
+        attribute: "전격",
+        skills: ["전기 충격", "번개 창", "감전 보호막"]
+      }
+    ];
+
+    const grid = document.getElementById("characterGrid");
+    const modal = document.getElementById("characterModal");
+    const overlay = document.getElementById("overlay");
+    const modalName = document.getElementById("modalName");
+    const modalGrade = document.getElementById("modalGrade");
+    const modalFaction = document.getElementById("modalFaction");
+    const modalAttribute = document.getElementById("modalAttribute");
+    const modalSkills = document.getElementById("modalSkills");
+
+    characters.forEach(char => {
+      const div = document.createElement("div");
+      div.className = "character";
+      div.innerHTML = `<img src="${char.img}" alt="${char.name}"><div>${char.name}</div>`;
+      div.onclick = () => {
+        modalName.textContent = char.name;
+        modalGrade.textContent = `등급: ${char.grade}`;
+        modalFaction.textContent = `소속: ${char.faction}`;
+        modalAttribute.textContent = `속성: ${char.attribute}`;
+        modalSkills.textContent = `스킬: ${char.skills.join(', ')}`;
+        modal.classList.add("active");
+        overlay.classList.add("active");
+      };
+      grid.appendChild(div);
+    });
+
+    function closeModal() {
+      modal.classList.remove("active");
+      overlay.classList.remove("active");
+    }
+  </script>
+
+</body>
+</html>
